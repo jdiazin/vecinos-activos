@@ -43,3 +43,10 @@ RUN sed -i 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf
 
 # Habilitar mod_rewrite para las rutas de Laravel
 RUN a2enmod rewrite
+
+# Copiar el script de inicio y darle permisos de ejecución
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Definir el comando de entrada por defecto
+ENTRYPOINT ["entrypoint.sh"]
