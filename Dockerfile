@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip
 
-# Limpiar cache
+# Limpiar cache de apt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar extensiones de PHP
@@ -28,12 +28,17 @@ COPY . /var/www/html
 # Instalar dependencias de PHP con Composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Dar permisos a las carpetas de almacenamiento y caché
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Ajustar permisos para evitar errores de escritura y habilitar acceso a directorios
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
 
 # Cambiar la raíz del documento de Apache a la carpeta public de Laravel
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
 RUN sed -i 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf
 
-# Habilitar mod_rewrite para las rutas amigables
+# Habilitar mod_rewrite para que las rutas de Laravel funcionen
 RUN a2enmod rewrite
+
+# Preparar la caché de configuración
+RUN php artisan config:cache && php artisan route:cache
