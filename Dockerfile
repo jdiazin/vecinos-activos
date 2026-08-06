@@ -34,8 +34,8 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
-# Limpiar caché previa y ejecutar migraciones automáticamente
-RUN php artisan config:clear && php artisan cache:clear && php artisan migrate --force
+# Limpiar caché previa
+RUN php artisan config:clear && php artisan cache:clear
 
 # Cambiar la raíz del documento de Apache a la carpeta public de Laravel
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
