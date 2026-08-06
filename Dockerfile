@@ -30,7 +30,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # Cambiar la raíz del servidor Apache a la carpeta public de Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUsed SED -ri -s,-/var/www/html,-/var/www/html/public,,g /etc/apache2/sites-available/*.conf
+RUN sed -ri -s,-/var/www/html,-/var/www/html/public,,g /etc/apache2/sites-available/*.conf
 RUN sed -ri -s,-/var/www/,-/var/www/html/public,,g /etc/apache2/apache2.conf
 
 # Habilitar mod_rewrite de Apache para las rutas amigables de Laravel
