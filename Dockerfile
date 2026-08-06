@@ -25,6 +25,9 @@ WORKDIR /var/www/html
 # Copiar los archivos del proyecto
 COPY . /var/www/html
 
+# Instalar dependencias de PHP con Composer
+RUN composer install --no-dev --optimize-autoloader
+
 # Dar permisos a las carpetas de almacenamiento y caché
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
