@@ -28,10 +28,9 @@ COPY . /var/www/html
 # Dar permisos a las carpetas de almacenamiento y caché
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Cambiar la raíz del servidor Apache a la carpeta public de Laravel
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -s,-/var/www/html,-/var/www/html/public,,g /etc/apache2/sites-available/*.conf
-RUN sed -ri -s,-/var/www/,-/var/www/html/public,,g /etc/apache2/apache2.conf
+# Cambiar la raíz del documento de Apache a la carpeta public de Laravel
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+RUN sed -i 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf
 
-# Habilitar mod_rewrite de Apache para las rutas amigables de Laravel
+# Habilitar mod_rewrite para las rutas amigables
 RUN a2enmod rewrite
