@@ -28,10 +28,13 @@ COPY . /var/www/html
 # Instalar dependencias de PHP con Composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Ajustar permisos para evitar errores de escritura y habilitar acceso a directorios
+# Ajustar permisos para evitar errores de escritura
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
+
+# Limpiar cualquier caché previa para forzar la lectura de variables en vivo
+RUN php artisan config:clear && php artisan cache:clear
 
 # Cambiar la raíz del documento de Apache a la carpeta public de Laravel
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
@@ -39,6 +42,3 @@ RUN sed -i 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf
 
 # Habilitar mod_rewrite para que las rutas de Laravel funcionen
 RUN a2enmod rewrite
-
-# Preparar la caché de configuración
-RUN php artisan config:cache && php artisan route:cache
