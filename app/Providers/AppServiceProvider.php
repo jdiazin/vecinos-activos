@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\URL;
 use App\Helpers\AuditLogger;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Forzar HTTPS en producción para que carguen bien los assets (Vite)
+        if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https');
+        }
+
         Event::listen(Login::class, function ($event) {
             AuditLogger::log(
                 'Inicio de sesión', 
