@@ -41,8 +41,9 @@ RUN php artisan config:clear && php artisan cache:clear
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
 RUN sed -i 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf
 
-# Habilitar mod_rewrite para las rutas de Laravel
+# Habilitar mod_rewrite y permitir sobrescritura para las rutas de Laravel
 RUN a2enmod rewrite
+RUN sed -i '/<Directory \/var\/www\/html\/public>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 # Copiar el script de inicio y darle permisos de ejecución
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
