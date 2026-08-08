@@ -35,7 +35,12 @@ class EventController extends Controller
             'description' => 'required|string',
             'event_date'  => 'required|date',
             'location'    => 'required|string|max:255',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // Usamos 'file' en lugar de 'image' para permitir formatos profesionales pesados y técnicos
+            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,avif,svg,raw,tiff,bmp,psd,ai,eps,heic,heif,ico,indd|max:51200',
+        ], [
+            'image.file'  => 'El archivo cargado debe ser un archivo válido.',
+            'image.mimes' => 'El formato del archivo no está permitido. Se aceptan: JPG, JPEG, PNG, GIF, WebP, AVIF, SVG, RAW, TIFF, BMP, PSD, AI, EPS, HEIC, HEIF, ICO, INDD.',
+            'image.max'   => 'El archivo es demasiado pesado. El tamaño máximo permitido es 50 MB.',
         ]);
 
         $imagePath = null;
@@ -68,7 +73,11 @@ class EventController extends Controller
             'description' => 'required|string',
             'event_date'  => 'required|date',
             'location'    => 'required|string|max:255',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,avif,svg,raw,tiff,bmp,psd,ai,eps,heic,heif,ico,indd|max:51200',
+        ], [
+            'image.file'  => 'El archivo cargado debe ser un archivo válido.',
+            'image.mimes' => 'El formato del archivo no está permitido. Se aceptan: JPG, JPEG, PNG, GIF, WebP, AVIF, SVG, RAW, TIFF, BMP, PSD, AI, EPS, HEIC, HEIF, ICO, INDD.',
+            'image.max'   => 'El archivo es demasiado pesado. El tamaño máximo permitido es 50 MB.',
         ]);
 
         if ($request->hasFile('image')) {

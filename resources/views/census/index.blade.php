@@ -575,78 +575,14 @@
                                     </select>
                                 </div>
                                 <div class="sm:col-span-2">
-                                    <label class="block text-xs font-bold text-slate-700 mb-1">Ocupación / Si estudia</label>
-                                    <select x-model="miembro.ocupacion" :name="'familiares['+index+'][ocupacion]'" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5">
-                                        <option value="">Seleccione una ocupación</option>
-                                        <option value="No aplica">No aplica</option>
-                                        <option value="Abogado">Abogado</option>
-                                        <option value="Administrador">Administrador</option>
-                                        <option value="Agricultor">Agricultor</option>
-                                        <option value="Albañil">Albañil</option>
-                                        <option value="Agrónomo">Agrónomo</option>
-                                        <option value="Ama de casa / Amo de casa">Ama de casa / Amo de casa</option>
-                                        <option value="Arquitecto">Arquitecto</option>
-                                        <option value="Artesano">Artesano</option>
-                                        <option value="Asesor de ventas">Asesor de ventas</option>
-                                        <option value="Asistente administrativo">Asistente administrativo</option>
-                                        <option value="Barbero">Barbero</option>
-                                        <option value="Bioanalista">Bioanalista</option>
-                                        <option value="Bombero">Bombero</option>
-                                        <option value="Cajero">Cajero</option>
-                                        <option value="Carpintero">Carpintero</option>
-                                        <option value="Chef / Cocinero">Chef / Cocinero</option>
-                                        <option value="Civil / Militar">Civil / Militar</option>
-                                        <option value="Comerciante / Dueño de negocio">Comerciante / Dueño de negocio</option>
-                                        <option value="Community Manager">Community Manager</option>
-                                        <option value="Conductor / Transportista">Conductor / Transportista</option>
-                                        <option value="Contador público">Contador público</option>
-                                        <option value="Costurero / Sastre">Costurero / Sastre</option>
-                                        <option value="Creador de contenido">Creador de contenido</option>
-                                        <option value="Desempleado">Desempleado</option>
-                                        <option value="Diseñador gráfico">Diseñador gráfico</option>
-                                        <option value="Docente / Profesor">Docente / Profesor</option>
-                                        <option value="Delivery / Repartidor">Delivery / Repartidor</option>
-                                        <option value="Electricista">Electricista</option>
-                                        <option value="Empleado público">Empleado público</option>
-                                        <option value="Enfermero">Enfermero</option>
-                                        <option value="Especialista en Recursos Humanos">Especialista en Recursos Humanos</option>
-                                        <option value="Estudiante">Estudiante</option>
-                                        <option value="Esteticista / Manicurista">Esteticista / Manicurista</option>
-                                        <option value="Farmacéutico">Farmacéutico</option>
-                                        <option value="Herrero">Herrero</option>
-                                        <option value="Ingeniero civil">Ingeniero civil</option>
-                                        <option value="Ingeniero de sistemas / computación">Ingeniero de sistemas / computación</option>
-                                        <option value="Ingeniero industrial">Ingeniero industrial</option>
-                                        <option value="Ingeniero mecánico">Ingeniero mecánico</option>
-                                        <option value="Ingeniero de petróleo">Ingeniero de petróleo</option>
-                                        <option value="Jubilado / Pensionado">Jubilado / Pensionado</option>
-                                        <option value="Mecánico automotriz">Mecánico automotriz</option>
-                                        <option value="Médico / Cirujano">Médico / Cirujano</option>
-                                        <option value="Mesero">Mesero</option>
-                                        <option value="Militar">Militar</option>
-                                        <option value="Odontólogo">Odontólogo</option>
-                                        <option value="Paramédico">Paramédico</option>
-                                        <option value="Peluquero">Peluquero</option>
-                                        <option value="Periodista / Comunicador Social">Periodista / Comunicador Social</option>
-                                        <option value="Personal de limpieza / mantenimiento">Personal de limpieza / mantenimiento</option>
-                                        <option value="Pescador">Pescador</option>
-                                        <option value="Plomero">Plomero</option>
-                                        <option value="Policía">Policía</option>
-                                        <option value="Productor agropecuario">Productor agropecuario</option>
-                                        <option value="Programador / Desarrollador de software">Programador / Desarrollador de software</option>
-                                        <option value="Psicólogo">Psicólogo</option>
-                                        <option value="Secretaria">Secretaria</option>
-                                        <option value="Soporte técnico digital">Soporte técnico digital</option>
-                                        <option value="Técnico en computación">Técnico en computación</option>
-                                        <option value="Técnico en electricidad">Técnico en electricidad</option>
-                                        <option value="Técnico en enfermería">Técnico en enfermería</option>
-                                        <option value="Técnico en mecánica">Técnico en mecánica</option>
-                                        <option value="Técnico en turismo">Técnico en turismo</option>
-                                        <option value="Terapeuta / Trabajador social">Terapeuta / Trabajador social</option>
-                                        <option value="Vendedor">Vendedor</option>
-                                        <option value="Veterinario">Veterinario</option>
-                                        <option value="Vigilante / Personal de seguridad">Vigilante / Personal de seguridad</option>
-                                    </select>
+                                    <div>
+                                 <label class="block text-xs font-bold text-slate-700 mb-1">Ocupación </label>
+                                <select x-model="miembro.ocupacion" :name="'familiares['+index+'][ocupacion]'" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5" required>
+                                <option value="">Seleccione una ocupación</option>
+                                 <option value="Estudia">Estudia</option>
+                                 <option value="Trabaja">Trabaja</option>
+                                 <option value="No aplica">No aplica</option>
+                                 </select>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-700 mb-1">¿Padece enfermedad o discapacidad? <span class="text-rose-500">*</span></label>
@@ -696,102 +632,124 @@
             </div>
 
             <!-- ================= SECCIÓN VI: SALUD Y VULNERABILIDAD ================= -->
-            <div x-show="step === 6" style="display: none;" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-xl space-y-6">
-                <div class="border-b border-slate-100 pb-4">
-                    <h3 class="text-lg font-bold text-slate-800">Salud y Grupos Vulnerables</h3>
-                    <p class="text-xs text-slate-400">Identificación de sectores prioritarios o casos médicos delicados en el hogar.</p>
+<div x-show="step === 6" style="display: none;" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-xl space-y-6">
+    <div class="border-b border-slate-100 pb-4">
+        <h3 class="text-lg font-bold text-slate-800">Salud y Grupos Vulnerables</h3>
+        <p class="text-xs text-slate-400">Identificación de sectores prioritarios o casos médicos delicados en el hogar.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">¿Hay mujeres embarazadas en el hogar? <span class="text-rose-500">*</span></label>
+            <select name="embarazadas_status" x-model="embarazadas" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+                <option value="No">No</option>
+                <option value="Sí">Sí</option>
+            </select>
+        </div>
+        <template x-if="embarazadas === 'Sí'">
+            <div class="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-indigo-50/50 border border-indigo-100 rounded-xl">
+                <div>
+                    <label class="block text-xs font-bold text-indigo-900 mb-1">Cantidad de embarazadas <span class="text-rose-500">*</span></label>
+                    <input type="number" name="embarazadas_cantidad" x-model="form.embarazadas_cantidad" min="1" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5">
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">¿Hay mujeres embarazadas en el hogar? <span class="text-rose-500">*</span></label>
-                        <select name="embarazadas_status" x-model="embarazadas" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                            <option value="No">No</option>
-                            <option value="Sí">Sí</option>
-                        </select>
-                    </div>
-                    <template x-if="embarazadas === 'Sí'">
-                        <div class="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-indigo-50/50 border border-indigo-100 rounded-xl">
-                            <div>
-                                <label class="block text-xs font-bold text-indigo-900 mb-1">Cantidad de embarazadas <span class="text-rose-500">*</span></label>
-                                <input type="number" name="embarazadas_cantidad" x-model="form.embarazadas_cantidad" min="1" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-indigo-900 mb-1">¿Cuentan con control médico? <span class="text-rose-500">*</span></label>
-                                <select name="embarazadas_control" x-model="form.embarazadas_control" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5">
-                                    <option value="">Seleccione</option>
-                                    <option value="Sí">Sí</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </template>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">¿Niños lactantes (0 a 2 años)? <span class="text-rose-500">*</span></label>
-                        <select name="lactantes_status" x-model="lactantes" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                            <option value="No">No</option>
-                            <option value="Sí">Sí</option>
-                        </select>
-                    </div>
-                    <template x-if="lactantes === 'Sí'">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Cantidad de lactantes <span class="text-rose-500">*</span></label>
-                            <input type="number" name="lactantes_cantidad" x-model="form.lactantes_cantidad" min="1" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                        </div>
-                    </template>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">¿Adultos mayores de 60 años? <span class="text-rose-500">*</span></label>
-                        <select name="adultos_status" x-model="adultos" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                            <option value="No">No</option>
-                            <option value="Sí">Sí</option>
-                        </select>
-                    </div>
-                    <template x-if="adultos === 'Sí'">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Cantidad de adultos mayores <span class="text-rose-500">*</span></label>
-                            <input type="number" name="adultos_cantidad" x-model="form.adultos_cantidad" min="1" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                        </div>
-                    </template>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">¿Personas encamadas o con movilidad reducida? <span class="text-rose-500">*</span></label>
-                        <select name="encamados_status" x-model="encamados" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                            <option value="No">No</option>
-                            <option value="Sí">Sí</option>
-                        </select>
-                    </div>
-                    <template x-if="encamados === 'Sí'">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Cantidad de personas <span class="text-rose-500">*</span></label>
-                            <input type="number" name="encamados_cantidad" x-model="form.encamados_cantidad" min="1" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                        </div>
-                    </template>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">¿Enfermedades crónicas generales? <span class="text-rose-500">*</span></label>
-                        <select name="enfermedades_cronicas_status" x-model="cronicas" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                            <option value="No">No</option>
-                            <option value="Sí">Sí</option>
-                        </select>
-                    </div>
-                    <template x-if="cronicas === 'Sí'">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Especifique patologías <span class="text-rose-500">*</span></label>
-                            <input type="text" name="enfermedades_cronicas_detalle" x-model="form.enfermedades_cronicas_detalle" placeholder="Diabetes, Hipertensión..." class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                        </div>
-                    </template>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">¿Registrados en CONAPDIS? <span class="text-rose-500">*</span></label>
-                        <select name="conapdis" x-model="form.conapdis" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                            <option value="">Seleccione</option>
-                            <option value="No aplica">No aplica</option>
-                            <option value="Sí">Sí</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="flex justify-between pt-4 border-t border-slate-100">
-                    <button type="button" @click="step = 5; errorMessage = ''" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-6 py-2.5 rounded-xl text-xs font-bold transition">← Anterior</button>
-                    <button type="button" @click="nextStep()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition">Siguiente paso →</button>
+                <div>
+                    <label class="block text-xs font-bold text-indigo-900 mb-1">¿Cuentan con control médico? <span class="text-rose-500">*</span></label>
+                    <select name="embarazadas_control" x-model="form.embarazadas_control" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5">
+                        <option value="">Seleccione</option>
+                        <option value="Sí">Sí</option>
+                        <option value="No">No</option>
+                    </select>
                 </div>
             </div>
+        </template>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">¿Niños lactantes (0 a 2 años)? <span class="text-rose-500">*</span></label>
+            <select name="lactantes_status" x-model="lactantes" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+                <option value="No">No</option>
+                <option value="Sí">Sí</option>
+            </select>
+        </div>
+        <template x-if="lactantes === 'Sí'">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Cantidad de lactantes <span class="text-rose-500">*</span></label>
+                <input type="number" name="lactantes_cantidad" x-model="form.lactantes_cantidad" min="1" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+            </div>
+        </template>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">¿Adultos mayores de 60 años? <span class="text-rose-500">*</span></label>
+            <select name="adultos_status" x-model="adultos" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+                <option value="No">No</option>
+                <option value="Sí">Sí</option>
+            </select>
+        </div>
+        <template x-if="adultos === 'Sí'">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Cantidad de adultos mayores <span class="text-rose-500">*</span></label>
+                <input type="number" name="adultos_cantidad" x-model="form.adultos_cantidad" min="1" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+            </div>
+        </template>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">¿Personas encamadas o con movilidad reducida? <span class="text-rose-500">*</span></label>
+            <select name="encamados_status" x-model="encamados" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+                <option value="No">No</option>
+                <option value="Sí">Sí</option>
+            </select>
+        </div>
+        <template x-if="encamados === 'Sí'">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Cantidad de personas <span class="text-rose-500">*</span></label>
+                <input type="number" name="encamados_cantidad" x-model="form.encamados_cantidad" min="1" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+            </div>
+        </template>
+        
+        <!-- Enfermedades crónicas generales adaptado -->
+        <div class="sm:col-span-2 space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">¿Enfermedades crónicas generales? <span class="text-rose-500">*</span></label>
+                <select name="enfermedades_cronicas_status" x-model="cronicas" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+                    <option value="No">No</option>
+                    <option value="Sí">Sí</option>
+                </select>
+            </div>
+
+            <template x-if="cronicas === 'Sí'">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-indigo-50/50 border border-indigo-100 rounded-xl">
+                    <div>
+                        <label class="block text-xs font-bold text-indigo-900 mb-1">Patología o Condición <span class="text-rose-500">*</span></label>
+                        <select name="enfermedades_cronicas_tipo" x-model="form.enfermedades_cronicas_tipo" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5">
+                            <option value="">Seleccione</option>
+                            <option value="Diabetes">Diabetes</option>
+                            <option value="Hipertensión arterial">Hipertensión arterial</option>
+                            <option value="Asma">Asma</option>
+                            <option value="Insuficiencia Renal">Insuficiencia Renal</option>
+                            <option value="Cardiopatía">Cardiopatía</option>
+                            <option value="Otra">Otra (especificar)</option>
+                        </select>
+                    </div>
+                    <template x-if="form.enfermedades_cronicas_tipo === 'Otra'">
+                        <div>
+                            <label class="block text-xs font-bold text-indigo-900 mb-1">Especifique cuál <span class="text-rose-500">*</span></label>
+                            <input type="text" name="enfermedades_cronicas_detalle" x-model="form.enfermedades_cronicas_detalle" placeholder="Describa la condición" class="w-full text-sm bg-white border-slate-200 rounded-xl p-2.5">
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">¿Registrados en CONAPDIS? <span class="text-rose-500">*</span></label>
+            <select name="conapdis" x-model="form.conapdis" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
+                <option value="">Seleccione</option>
+                <option value="No aplica">No aplica</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+            </select>
+        </div>
+    </div>
+    <div class="flex justify-between pt-4 border-t border-slate-100">
+        <button type="button" @click="step = 5; errorMessage = ''" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-6 py-2.5 rounded-xl text-xs font-bold transition">← Anterior</button>
+        <button type="button" @click="nextStep()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition">Siguiente paso →</button>
+    </div>
+</div>
 
             <!-- ================= SECCIÓN VII: CIERRE ================= -->
             <div x-show="step === 7" style="display: none;" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-xl space-y-6">

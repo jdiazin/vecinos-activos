@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determina si el usuario está autorizado para hacer esta solicitud.
      */
     public function authorize(): bool
     {
@@ -20,7 +20,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Obtiene las reglas de validación que se aplican a la solicitud.
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
@@ -33,35 +33,36 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Intenta autenticar las credenciales de la solicitud.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function authenticate(): void
-{
-    $this->ensureIsNotRateLimited();
+    {
+        $this->ensureIsNotRateLimited();
 
-    if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-        RateLimiter::hit($this->throttleKey());
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            RateLimiter::hit($this->throttleKey());
 
-        throw ValidationException::withMessages([
-            'email' => __('auth.failed'),
-        ]);
+            throw ValidationException::withMessages([
+                'email' => 'Estas credenciales no coinciden con nuestros registros.',
+            ]);
+        }
+
+        // --- VALIDACIÓN DE ESTADO ---
+        $user = Auth::user();
+        if (isset($user->is_active) && !$user->is_active) {
+            Auth::logout();
+            throw ValidationException::withMessages([
+                'email' => 'Su cuenta se encuentra deshabilitada. Contacte al administrador de la comunidad.',
+            ]);
+        }
+
+        RateLimiter::clear($this->throttleKey());
     }
 
-    // --- NUEVA VALIDACIÓN DE ESTADO ---
-    $user = Auth::user();
-    if (!$user->is_active) {
-        Auth::logout();
-        throw ValidationException::withMessages([
-            'email' => 'Su cuenta se encuentra deshabilitada. Contacte al administrador de la comunidad.',
-        ]);
-    }
-
-    RateLimiter::clear($this->throttleKey());
-}
     /**
-     * Ensure the login request is not rate limited.
+     * Asegura que la solicitud de inicio de sesión no esté limitada por tasa de intentos.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -84,7 +85,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * Obtiene la clave de limitación de tasa (throttle) para la solicitud.
      */
     public function throttleKey(): string
     {

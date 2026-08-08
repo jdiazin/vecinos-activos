@@ -27,7 +27,7 @@ class CensusController extends Controller
         $censoExistente = CensoFamilia::where('user_id', auth()->id())->first();
         $censoId = $censoExistente ? $censoExistente->id : 'NULL';
 
-        // Validación general de los campos del formulario
+        // Validación general de los campos del formulario con mensajes personalizados en español
         $validatedData = $request->validate([
             'sector_calle' => 'required|string|max:255',
             'numero_vivienda_dir' => 'required|string|max:255',
@@ -42,11 +42,13 @@ class CensusController extends Controller
             'jefe_estado_civil' => 'required|string',
             'jefe_telefono' => 'required|string',
             'jefe_telefono_alt' => 'nullable|string',
+            'jefe_telefono' => 'required|digits:11',     
+            'jefe_telefono_alt' => 'nullable|digits:11',
             'jefe_instruccion' => 'required|string',
             'jefe_ocupacion' => 'required|string',
             'posee_carnet_patria' => 'required|string',
-            'codigo_carnet' => 'nullable|string',
-            'serial_carnet' => 'nullable|string',
+            'codigo_carnet' => 'nullable|digits:10',
+            'serial_carnet' => 'nullable|digits:10',
 
             // Vivienda y servicios
             'tipo_vivienda' => 'required|string',
@@ -95,6 +97,11 @@ class CensusController extends Controller
             'familiares.*.fecha_nacimiento' => 'required|date',
             'familiares.*.nivel_educativo' => 'required|string',
             'familiares.*.tiene_discapacidad' => 'required|string',
+        ], [
+            'jefe_cedula.unique' => 'Esta cédula ya ha sido registrada anteriormente.',
+            'jefe_cedula.required' => 'La cédula del jefe de familia es obligatoria.',
+            'codigo_carnet.digits' => 'El código del carnet de la patria debe tener exactamente 10 dígitos.',
+            'serial_carnet.digits' => 'El serial del carnet de la patria debe tener exactamente 10 dígitos.',
         ]);
 
         // Usamos una transacción para garantizar que se guarde todo o nada
@@ -171,7 +178,7 @@ class CensusController extends Controller
             // Cargar la familia específica mediante su ID con sus integrantes
             $censo = CensoFamilia::with('integrantes')->findOrFail($id);
 
-            // Permisos restaurados: El administrador (is_admin == 1 o rol admin) tiene acceso total. Si no es admin, debe ser dueño del censo.
+            // Permisos: El administrador (is_admin == 1 o rol admin) tiene acceso total. Si no es admin, debe ser dueño del censo.
             $isAdmin = ($user->is_admin ?? 0) == 1 || ($user->role ?? '') === 'admin';
 
             if (!$isAdmin && $censo->user_id !== $user->id) {
