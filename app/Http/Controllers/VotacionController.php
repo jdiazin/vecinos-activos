@@ -10,6 +10,14 @@ use Illuminate\Database\QueryException;
 
 class VotacionController extends Controller
 {
+    /**
+     * Instancia el controlador y restringe el acceso solo a usuarios autenticados.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $postuladosPorVoceria = Postulacion::all()->groupBy('voceria');
