@@ -25,15 +25,15 @@
         <nav class="flex items-center justify-between h-16">
           
           <!-- Logo y Título -->
-          <div class="flex items-center gap-2.5">
+          <div class="flex items-center gap-2.5 flex-shrink-0">
             <div class="bg-slate-900 text-white p-2 rounded-lg flex items-center justify-center">
               <i class="fas fa-home text-lg"></i>
             </div>
             <h1 class="text-lg font-bold text-slate-900 tracking-tight">Vecinos Activos</h1>
           </div>
 
-          <!-- Enlaces de Navegación Compactos -->
-          <ul class="hidden md:flex items-center space-x-5 text-sm font-medium text-slate-600">
+          <!-- Enlaces de Navegación Compactos (Corregidos con gap-6) -->
+          <ul class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
             <li><a href="{{ route('eventos.index') }}" class="hover:text-slate-900 transition">Comunicados</a></li>
             
             <!-- Votar Ahora (Condicionado por el Admin) -->
@@ -66,7 +66,7 @@
           </ul>
           
           <!-- Botones de Acción (Derecha) -->
-          <div class="hidden md:flex items-center gap-2.5">
+          <div class="hidden md:flex items-center gap-2.5 flex-shrink-0">
             @auth
                 @if(Auth::user()->role === 'admin')
                     <a href="{{ route('admin.users.index') }}" class="px-3 py-1.5 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-950 rounded-md shadow-sm transition flex items-center gap-1.5">
