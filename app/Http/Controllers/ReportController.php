@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use App\Models\Postulacion;
 use App\Models\Event; 
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -30,12 +32,42 @@ class ReportController extends Controller
         return view('reports.index', compact('reports'));
     }
     
-    public function resolve($id)
+    public function resolve(Request $request, $id)
     {
+        // 1. Validar que se obligatoriamente la evidencia y las notas de solución
+        $request->validate([
+            'evidence'       => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'solution_notes' => 'required|string|max:1000',
+        ]);
+
         $report = Report::findOrFail($id);
-        $report->update(['status' => 'resuelto']);
         
-        return back()->with('success', 'Reporte finalizado.');
+        // 2. Almacenar el archivo de evidencia en el disco público
+        $path = $request->file('evidence')->store('solutions_evidence', 'public');
+
+        // 3. Actualizar el estado y los datos de cierre del reporte
+        $report->update([
+            'status'         => 'resuelto',
+            'evidence_path'  => $path,
+            'solution_notes' => $request->solution_notes,
+            'resolved_by'    => auth()->id(),
+            'resolved_at'    => now(),
+        ]);
+
+        // 4. Registrar la acción en la tabla de auditoría usando tu estructura existente
+        $user = auth()->user();
+        AuditLog::create([
+            'user_id'       => $user->id,
+            'user_name'     => $user->name,
+            'event_context' => 'Gestión de Incidencias',
+            'component'     => 'Reportes',
+            'event_name'    => 'Resolución de Reporte',
+            'description'   => "El usuario {$user->name} marcó como resuelto el reporte #{$report->id} ubicado en '{$report->location}'.",
+            'origin'        => 'Web',
+            'ip_address'    => request()->ip(),
+        ]);
+
+        return back()->with('success', '¡Reporte finalizado y evidencia registrada correctamente!');
     }
 
     public function store(Request $request)

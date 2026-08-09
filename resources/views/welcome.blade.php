@@ -21,15 +21,20 @@
     @endphp
     
     <header class="bg-white shadow-sm sticky top-0 z-50">
-      <div class="max-w-6xl mx-auto px-4">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="flex items-center justify-between h-16">
-          <div class="flex items-center gap-2 text-slate-800">
-            <i class="fas fa-home text-2xl"></i>
-            <h1 class="text-xl font-bold text-slate-900">Vecinos Activos</h1>
+          
+          <!-- Logo y Título -->
+          <div class="flex items-center gap-2.5">
+            <div class="bg-slate-900 text-white p-2 rounded-lg flex items-center justify-center">
+              <i class="fas fa-home text-lg"></i>
+            </div>
+            <h1 class="text-lg font-bold text-slate-900 tracking-tight">Vecinos Activos</h1>
           </div>
-          <ul class="hidden md:flex gap-6 font-medium text-slate-600">
 
-            <li><a href="{{ route('eventos.index') }}" class="hover:text-slate-900 transition">Eventos</a></li>
+          <!-- Enlaces de Navegación Compactos -->
+          <ul class="hidden md:flex items-center space-x-5 text-sm font-medium text-slate-600">
+            <li><a href="{{ route('eventos.index') }}" class="hover:text-slate-900 transition">Comunicados</a></li>
             
             <!-- Votar Ahora (Condicionado por el Admin) -->
             @if($votarPermitido)
@@ -51,29 +56,30 @@
                 @if(Auth::user()->role === 'admin')
                     <li>
                         <a href="{{ route('admin.postulaciones') }}" class="hover:text-slate-900 transition">
-                            Ver Postulaciones
+                            Postulaciones
                         </a>
                     </li>
                 @endif
             @endauth
             
-            <li><a href="{{ route('reports.index') }}" class="...">Reportes</a></li>
-             </ul>
+            <li><a href="{{ route('reports.index') }}" class="hover:text-slate-900 transition">Reportes</a></li>
+          </ul>
           
-          <div class="hidden md:flex gap-3">
+          <!-- Botones de Acción (Derecha) -->
+          <div class="hidden md:flex items-center gap-2.5">
             @auth
                 @if(Auth::user()->role === 'admin')
-                    <a href="{{ route('admin.users.index') }}" class="px-4 py-2 text-sm font-medium text-white bg-slate-800 hover:bg-slate-950 rounded-lg shadow-sm transition flex items-center gap-1.5">
+                    <a href="{{ route('admin.users.index') }}" class="px-3 py-1.5 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-950 rounded-md shadow-sm transition flex items-center gap-1.5">
                         <i class="fas fa-users-cog"></i> Gestionar Usuarios
                     </a>
                 @endif
 
-                <a href="{{ url('/dashboard') }}" class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition flex items-center gap-1.5">
+                <a href="{{ url('/dashboard') }}" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition flex items-center gap-1.5">
                     <i class="fas fa-user-circle"></i> Mi Panel
                 </a>
             @else
-                <a href="{{ route('register') }}" class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition">Registrarse</a>
-                <a href="{{ route('login') }}" class="px-4 py-2 text-sm font-medium text-white bg-slate-800 hover:bg-slate-950 rounded-lg shadow-sm transition">Iniciar Sesión</a>
+                <a href="{{ route('register') }}" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md transition">Registrarse</a>
+                <a href="{{ route('login') }}" class="px-3 py-1.5 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-950 rounded-md shadow-sm transition">Iniciar Sesión</a>
             @endauth
           </div>
         </nav>
@@ -92,7 +98,7 @@
         <div class="relative w-full bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
             <div class="flex items-center justify-between mb-4 border-b pb-2">
                 <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-                    <i class="fas fa-calendar-alt text-slate-700"></i> Próximos Eventos de la Comunidad
+                    <i class="fas fa-calendar-alt text-slate-700"></i> Próximos Comunicados, Eventos y Anuncios de la Comunidad
                 </h3>
                 <a href="{{ route('eventos.index') }}" class="text-xs font-bold text-slate-600 hover:text-slate-900 transition">
                     Ver todos &rarr;
@@ -119,7 +125,7 @@
                 @empty
                     <div class="w-full text-center py-8 text-slate-400">
                         <i class="fas fa-calendar-times text-4xl mb-2"></i>
-                        <p class="text-sm">No hay próximos eventos programados por ahora.</p>
+                        <p class="text-sm">No hay comunicados, eventos o anuncios programados por ahora.</p>
                     </div>
                 @endforelse
             </div>

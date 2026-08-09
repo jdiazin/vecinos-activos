@@ -34,6 +34,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255', 'regex:/^[\pL\s]+$/u'],
             'apellido' => ['required', 'string', 'max:255', 'regex:/^[\pL\s]+$/u'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['required', 'string', 'regex:/^[0-9]{11}$/', 'unique:'.User::class],
             'fecha_nacimiento' => [
                 'required', 
                 'date', 
@@ -55,6 +56,9 @@ class RegisteredUserController extends Controller
             'apellido.regex' => 'El apellido solo debe contener letras, no se permiten números.',
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.unique' => 'Este correo electrónico ya está registrado.',
+            'phone.required' => 'El número de teléfono es obligatorio.',
+            'phone.regex' => 'El teléfono debe contener únicamente números y tener exactamente 11 dígitos.',
+            'phone.unique' => 'Este número de teléfono ya está registrado por otro usuario.',
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
             'fecha_nacimiento.before_or_equal' => 'Debes tener al menos 15 años de edad para poder registrarte.',
             'password.required' => 'La contraseña es obligatoria.',
@@ -70,6 +74,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'apellido' => $request->apellido,
             'email' => $request->email,
+            'phone' => $request->phone,
             'fecha_nacimiento' => $request->fecha_nacimiento,
             'password' => Hash::make($request->password),
         ]);

@@ -14,7 +14,14 @@ return new class extends Migration
             $table->string('issue_type');
             $table->string('location');
             $table->text('description');
-            $table->string('status')->default('Reportado');
+            $table->string('status')->default('Reportado'); // 'Reportado' o 'Pendiente'
+            
+            // --- Nuevos campos para la evidencia y control de resolución ---
+            $table->string('evidence_path')->nullable(); // Ruta de la foto o documento de prueba
+            $table->text('solution_notes')->nullable();  // Descripción de cómo se solucionó
+            $table->foreignId('resolved_by')->nullable()->constrained('users')->nullOnDelete(); // Quién lo resolvió
+            $table->timestamp('resolved_at')->nullable(); // Fecha y hora exacta de la resolución
+
             $table->timestamps();
         });
     }

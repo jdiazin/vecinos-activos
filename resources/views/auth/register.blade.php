@@ -30,6 +30,13 @@
                 <x-input-error :messages="$errors->get('apellido')" class="mt-2" />
             </div>
 
+            <!-- Teléfono -->
+            <div class="mt-4">
+            <x-input-label for="phone" :value="__('Teléfono (11 dígitos)')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autofocus autocomplete="tel" placeholder="04121234567" maxlength="11" />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+            </div>
+
             <!-- Email -->
             <div class="mt-4">
                 <x-input-label for="email" :value="__('Correo Electrónico')" />

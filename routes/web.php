@@ -18,12 +18,15 @@ Route::get('/eventos', [EventController::class, 'index'])->name('eventos.index')
 Route::get('/votar', [VotacionController::class, 'index'])->name('votar.index');
 Route::post('/votar', [VotacionController::class, 'store'])->name('votar.store');
 
-// --- Rutas Protegidas (Vecinos Estándar con Auditoría) ---
+// --- Rutas Protegidas (Vecinos Estándar, Voceros y Auditores con Auditoría) ---
 Route::middleware(['auth', AuditActivityMiddleware::class])->group(function () {
     Route::post('/reportes', [ReportController::class, 'store'])->name('reports.store');
     
-    // Vista dedicada de gestión/listado de reportes (Accesible para vecinos y auditores)
+    // Vista dedicada de gestión/listado de reportes
     Route::get('/reportes/gestion', [ReportController::class, 'gestionIndex'])->name('reports.index');
+
+    // Ruta para resolver el reporte con evidencia (Accesible para Admin y Voceros)
+    Route::patch('/reportes/{id}/resolver', [ReportController::class, 'resolve'])->name('reports.resolve');
 
     Route::get('/mi-censo', [CensusController::class, 'index'])->name('census.index');
     Route::post('/mi-censo', [CensusController::class, 'store'])->name('census.store');
@@ -40,12 +43,6 @@ Route::middleware(['auth', AuditActivityMiddleware::class])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-
-// --- Ruta Independiente de Reportes ---
-Route::middleware(['auth', AuditActivityMiddleware::class])->group(function () {
-    Route::patch('/reports/{id}/resolve', [ReportController::class, 'resolve'])->name('reports.resolve');
 });
 
 // --- Panel de Administración y Gestión ---
