@@ -78,7 +78,18 @@
                     </a>
                 </div>
 
-            </div>
+                <!-- Tarjeta del Módulo de Encuestas corregida -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Encuestas y Consultas</h3>
+                        <p class="text-sm text-gray-600 mt-1">Crear y gestionar consultas comunitarias.</p>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ route('encuestas.index') }}" class="text-sm text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center">
+                            Gestionar encuestas →
+                        </a>
+                    </div>
+                </div>
         </div>
     </div>
 </x-app-layout>

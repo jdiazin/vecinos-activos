@@ -44,6 +44,13 @@
                     </a>
                 </li>
             @endif
+
+          <!-- Enlace del Módulo de Encuestas -->
+            <li>
+                <a href="{{ route('encuestas.index') }}" class="hover:text-slate-900 transition">
+                    Encuestas
+                </a>
+            </li>
             
             <!-- Enlace añadido para el Censo Familiar -->
             <li>

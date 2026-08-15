@@ -55,4 +55,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class);
     }
+
+    /**
+     * Relación: Encuestas creadas por el usuario (Admin o Vocero).
+     */
+    public function createdSurveys()
+    {
+        return $this->hasMany(Survey::class, 'created_by');
+    }
+
+    /**
+     * Relación: Votos emitidos por el usuario (Ciudadano estándar).
+     */
+    public function surveyVotes()
+    {
+        return $this->hasMany(SurveyVote::class);
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\PostulacionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VotacionController;
 use App\Http\Controllers\CensusController;
+use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\Admin\AuditController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuditActivityMiddleware;
@@ -40,6 +41,13 @@ Route::middleware(['auth', AuditActivityMiddleware::class])->group(function () {
     Route::get('/votaciones', [PostulacionController::class, 'indexVotaciones'])->name('votaciones');
     Route::post('/votar/{id}', [PostulacionController::class, 'votar'])->name('votar');
     
+    // --- Módulo de Encuestas y Votaciones Digitales ---
+    Route::get('/encuestas', [EncuestaController::class, 'index'])->name('encuestas.index');
+    Route::get('/encuestas/create', [EncuestaController::class, 'create'])->name('encuestas.create');
+    Route::post('/encuestas', [EncuestaController::class, 'store'])->name('encuestas.store');
+    Route::post('/encuestas/{id}/vote', [EncuestaController::class, 'vote'])->name('encuestas.vote');
+    Route::get('/encuestas/{id}/results', [EncuestaController::class, 'results'])->name('encuestas.results');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
