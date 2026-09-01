@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VotacionController;
 use App\Http\Controllers\CensusController;
 use App\Http\Controllers\EncuestaController;
+use App\Http\Controllers\PasswordRequestController;
 use App\Http\Controllers\Admin\AuditController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuditActivityMiddleware;
@@ -18,6 +19,10 @@ Route::get('/', [ReportController::class, 'index'])->name('home');
 Route::get('/eventos', [EventController::class, 'index'])->name('eventos.index');
 Route::get('/votar', [VotacionController::class, 'index'])->name('votar.index');
 Route::post('/votar', [VotacionController::class, 'store'])->name('votar.store');
+
+// --- Rutas Públicas para Solicitud de Recuperación de Credenciales ---
+Route::get('/recuperar-acceso', [PasswordRequestController::class, 'create'])->name('password.request.form');
+Route::post('/recuperar-acceso', [PasswordRequestController::class, 'store'])->name('password.request.store');
 
 // --- Rutas Protegidas (Vecinos Estándar, Voceros y Auditores con Auditoría) ---
 Route::middleware(['auth', AuditActivityMiddleware::class])->group(function () {
@@ -87,6 +92,9 @@ Route::middleware(['auth', AuditActivityMiddleware::class])
             Route::get('/usuarios', [AdminController::class, 'index'])->name('users.index');
             Route::patch('/usuarios/{user}/role', [AdminController::class, 'toggleRole'])->name('users.toggleRole');
             Route::patch('/usuarios/{user}/status', [AdminController::class, 'toggleStatus'])->name('users.toggleStatus');
+            
+            // Ruta para eliminar usuarios (registrada automáticamente en auditoría)
+            Route::delete('/usuarios/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
 
             Route::get('/configuraciones', [AdminController::class, 'settingsIndex'])->name('settings');
             Route::patch('/configuraciones/{key}/toggle', [AdminController::class, 'toggleSetting'])->name('settings.toggle');
@@ -94,6 +102,10 @@ Route::middleware(['auth', AuditActivityMiddleware::class])
             Route::post('/eventos', [EventController::class, 'store'])->name('events.store');
             Route::put('/eventos/{event}', [EventController::class, 'update'])->name('events.update');
             Route::delete('/eventos/{event}', [EventController::class, 'destroy'])->name('events.destroy');
+
+            // --- Gestión de Solicitudes de Recuperación de Credenciales ---
+            Route::get('/solicitudes-credenciales', [PasswordRequestController::class, 'index'])->name('password.requests.index');
+            Route::patch('/solicitudes-credenciales/{passwordRequest}', [PasswordRequestController::class, 'update'])->name('password.requests.update');
         });
     });
 

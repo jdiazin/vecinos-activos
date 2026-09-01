@@ -78,7 +78,7 @@
                     </a>
                 </div>
 
-                <!-- Tarjeta del Módulo de Encuestas corregida -->
+                <!-- Tarjeta del Módulo de Encuestas -->
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border border-gray-100 flex flex-col justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-gray-900">Encuestas y Consultas</h3>
@@ -90,6 +90,23 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Solicitudes de Acceso (EXCLUSIVO ADMIN) -->
+                @if($role === 'admin')
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Solicitudes de Acceso</h3>
+                        <p class="text-sm text-gray-600 mt-1">Gestionar recuperaciones de contraseña y correos.</p>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ route('admin.password.requests.index') }}" class="text-sm text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center">
+                            Ver solicitudes →
+                        </a>
+                    </div>
+                </div>
+                @endif
+
+            </div>
         </div>
     </div>
 </x-app-layout>

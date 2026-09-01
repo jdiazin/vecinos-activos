@@ -53,12 +53,16 @@
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
+            <!-- Remember Me y Enlace de Recuperación -->
+            <div class="flex items-center justify-between mt-4">
                 <label for="remember_me" class="inline-flex items-center">
                     <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
                     <span class="ms-2 text-sm text-gray-600">{{ __('Recordarme') }}</span>
                 </label>
+
+                <a href="{{ route('password.request.form') }}" class="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                    ¿Olvidaste tus datos?
+                </a>
             </div>
 
             <!-- Botones de Acción Modificados -->

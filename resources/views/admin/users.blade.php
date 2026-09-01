@@ -14,6 +14,12 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+                    <span class="block sm:inline">{{ session('error') }}</span>
+                </div>
+            @endif
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-slate-200">
                 <div class="p-6 text-slate-900">
                     <h3 class="text-lg font-bold text-slate-700 mb-4">Usuarios Registrados en la Plataforma</h3>
@@ -61,7 +67,8 @@
                                                 {{ $user->is_active ? 'Activo' : 'Suspendido' }}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 flex gap-2 justify-center">
+                                        <td class="px-6 py-4 flex gap-2 justify-center items-center">
+                                            <!-- Formulario Cambiar Rol -->
                                             <form action="{{ route('admin.users.toggleRole', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
@@ -70,11 +77,21 @@
                                                 </button>
                                             </form>
 
+                                            <!-- Formulario Habilitar / Deshabilitar -->
                                             <form action="{{ route('admin.users.toggleStatus', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="px-3 py-1.5 text-xs font-medium rounded-md border transition {{ $user->is_active ? 'bg-red-50 hover:bg-red-100 text-red-700 border-red-200' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200' }}">
+                                                <button type="submit" class="px-3 py-1.5 text-xs font-medium rounded-md border transition {{ $user->is_active ? 'bg-amber-50 hover:bg-amber-100 text-amber-700 border-amber-200' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200' }}">
                                                     {{ $user->is_active ? 'Deshabilitar' : 'Habilitar' }}
+                                                </button>
+                                            </form>
+
+                                            <!-- Formulario Eliminar Usuario -->
+                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar permanentemente a este usuario? Esta acción no se puede deshacer.');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 font-medium text-xs rounded-md border border-red-200 transition">
+                                                    Eliminar
                                                 </button>
                                             </form>
                                         </td>

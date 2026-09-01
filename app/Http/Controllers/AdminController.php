@@ -52,6 +52,25 @@ class AdminController extends Controller
         return redirect()->back()->with('success', "El usuario {$user->name} ha sido {$status}.");
     }
 
+    // Elimina permanentemente a un usuario (Registrado con detalles específicos en la auditoría)
+    public function destroyUser(User $user)
+    {
+        // Evitar que el administrador elimine su propia cuenta de forma accidental
+        if (Auth::id() === $user->id) {
+            return redirect()->back()->with('error', 'No puedes eliminar tu propia cuenta de administrador.');
+        }
+
+        $userName = $user->name;
+        $userEmail = $user->email;
+        
+        $user->delete();
+
+        // Flash para que el middleware de auditoría capture exactamente a quién afectó/eliminó
+        session()->flash('audit_description', "El administrador eliminó al usuario: {$userName} ({$userEmail}).");
+
+        return redirect()->back()->with('success', "El usuario {$userName} ha sido eliminado exitosamente.");
+    }
+
     public function verPostulaciones()
     {
         $postulaciones = Postulacion::withCount('votos')->latest()->get();

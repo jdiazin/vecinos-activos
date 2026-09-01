@@ -26,9 +26,13 @@ class AuditActivityMiddleware
             if (str_contains($path, 'usuario')) $component = 'Usuarios';
             if (str_contains($path, 'configuracion')) $component = 'Configuración';
 
+            // Verificamos si hay una descripción personalizada en la sesión (como la de eliminación de usuarios)
+            $defaultDescription = "El usuario {$user->name} ejecutó una acción en: /{$path}";
+            $description = session('audit_description', $defaultDescription);
+
             AuditLogger::log(
                 'Acción (' . $request->method() . ')',
-                "El usuario {$user->name} ejecutó una acción en: /{$path}",
+                $description,
                 $component,
                 $request->method()
             );
