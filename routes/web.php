@@ -12,6 +12,7 @@ use App\Http\Controllers\EncuestaController;
 use App\Http\Controllers\PasswordRequestController;
 use App\Http\Controllers\Admin\AuditController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Middleware\AuditActivityMiddleware;
 
 // --- Rutas Públicas ---
@@ -106,6 +107,16 @@ Route::middleware(['auth', AuditActivityMiddleware::class])
             // --- Gestión de Solicitudes de Recuperación de Credenciales ---
             Route::get('/solicitudes-credenciales', [PasswordRequestController::class, 'index'])->name('password.requests.index');
             Route::patch('/solicitudes-credenciales/{passwordRequest}', [PasswordRequestController::class, 'update'])->name('password.requests.update');
+
+            // RUTA TEMPORAL DE EMERGENCIA PARA MIGRAR EN PRODUCCIÓN
+            Route::get('/run-migrations-xyz', function () {
+                try {
+                    Artisan::call('migrate', ['--force' => true]);
+                    return "¡Migraciones ejecutadas con éxito en producción!";
+                } catch (\Exception $e) {
+                    return "Error al migrar: " . $e->getMessage();
+                }
+            });
         });
     });
 
