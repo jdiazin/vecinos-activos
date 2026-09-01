@@ -13,7 +13,35 @@ use App\Http\Controllers\PasswordRequestController;
 use App\Http\Controllers\Admin\AuditController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use App\Http\Middleware\AuditActivityMiddleware;
+
+// --- RUTA PÚBLICA DE EMERGENCIA PARA ARREGLAR PRODUCCIÓN ---
+Route::get('/arreglar-base-datos', function () {
+    try {
+        // Asegurar columna 'phone' en la tabla users
+        if (!Schema::hasColumn('users', 'phone')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('phone')->nullable();
+            });
+        }
+
+        // Asegurar columna 'apellido' en la tabla users
+        if (!Schema::hasColumn('users', 'apellido')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('apellido')->nullable();
+            });
+        }
+
+        // Ejecutar migraciones restantes de forma oficial
+        Artisan::call('migrate', ['--force' => true]);
+
+        return "<h1>¡Listo! Las columnas 'apellido' y 'phone' fueron creadas y las migraciones se ejecutaron con éxito en producción. Ya puedes registrarte.</h1>";
+    } catch (\Exception $e) {
+        return "<h1>Error al migrar:</h1><pre>" . $e->getMessage() . "</pre>";
+    }
+});
 
 // --- Rutas Públicas ---
 Route::get('/', [ReportController::class, 'index'])->name('home');
@@ -110,32 +138,6 @@ Route::middleware(['auth', AuditActivityMiddleware::class])
             // --- Gestión de Solicitudes de Recuperación de Credenciales ---
             Route::get('/solicitudes-credenciales', [PasswordRequestController::class, 'index'])->name('password.requests.index');
             Route::patch('/solicitudes-credenciales/{passwordRequest}', [PasswordRequestController::class, 'update'])->name('password.requests.update');
-
-            // RUTA TEMPORAL DE EMERGENCIA PARA ARREGLAR PRODUCCIÓN
-            Route::get('/run-migrations-xyz', function () {
-                try {
-                    // 1. Asegurar columna 'phone' en la tabla users
-                    if (!Illuminate\Support\Facades\Schema::hasColumn('users', 'phone')) {
-                        Illuminate\Support\Facades\Schema::table('users', function (\Illuminate\Database\Schema\Blueprint $table) {
-                            $table->string('phone')->nullable();
-                        });
-                    }
-
-                    // 2. Asegurar columna 'apellido' en la tabla users (la que está dando el error actual)
-                    if (!Illuminate\Support\Facades\Schema::hasColumn('users', 'apellido')) {
-                        Illuminate\Support\Facades\Schema::table('users', function (\Illuminate\Database\Schema\Blueprint $table) {
-                            $table->string('apellido')->nullable();
-                        });
-                    }
-
-                    // 3. Ejecutar el resto de migraciones pendientes de forma oficial
-                    Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-
-                    return "¡Columnas 'phone' y 'apellido' aseguradas, y migraciones ejecutadas con éxito en producción!";
-                } catch (\Exception $e) {
-                    return "Error al migrar: " . $e->getMessage();
-                }
-            });
         });
     });
 
