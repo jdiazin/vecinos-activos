@@ -185,79 +185,94 @@
                             <option value="Postgrado">Postgrado</option>
                         </select>
                     </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Profesión, Oficio u Ocupación Actual <span class="text-rose-500">*</span></label>
-                        <select name="jefe_ocupacion" x-model="form.jefe_ocupacion" class="w-full text-sm border-slate-200 rounded-xl p-2.5">
-                            <option value="">Seleccione una profesión u oficio</option>
-                            <option value="Abogado">Abogado</option>
-                            <option value="Administrador">Administrador</option>
-                            <option value="Agricultor">Agricultor</option>
-                            <option value="Albañil">Albañil</option>
-                            <option value="Agrónomo">Agrónomo</option>
-                            <option value="Ama de casa / Amo de casa">Ama de casa / Amo de casa</option>
-                            <option value="Arquitecto">Arquitecto</option>
-                            <option value="Artesano">Artesano</option>
-                            <option value="Asesor de ventas">Asesor de ventas</option>
-                            <option value="Asistente administrativo">Asistente administrativo</option>
-                            <option value="Barbero">Barbero</option>
-                            <option value="Bioanalista">Bioanalista</option>
-                            <option value="Bombero">Bombero</option>
-                            <option value="Cajero">Cajero</option>
-                            <option value="Carpintero">Carpintero</option>
-                            <option value="Chef / Cocinero">Chef / Cocinero</option>
-                            <option value="Civil / Militar">Civil / Militar</option>
-                            <option value="Comerciante / Dueño de negocio">Comerciante / Dueño de negocio</option>
-                            <option value="Community Manager">Community Manager</option>
-                            <option value="Conductor / Transportista">Conductor / Transportista</option>
-                            <option value="Contador público">Contador público</option>
-                            <option value="Costurero / Sastre">Costurero / Sastre</option>
-                            <option value="Creador de contenido">Creador de contenido</option>
-                            <option value="Desempleado">Desempleado</option>
-                            <option value="Diseñador gráfico">Diseñador gráfico</option>
-                            <option value="Docente / Profesor">Docente / Profesor</option>
-                            <option value="Delivery / Repartidor">Delivery / Repartidor</option>
-                            <option value="Electricista">Electricista</option>
-                            <option value="Empleado público">Empleado público</option>
-                            <option value="Enfermero">Enfermero</option>
-                            <option value="Especialista en Recursos Humanos">Especialista en Recursos Humanos</option>
-                            <option value="Estudiante">Estudiante</option>
-                            <option value="Esteticista / Manicurista">Esteticista / Manicurista</option>
-                            <option value="Farmacéutico">Farmacéutico</option>
-                            <option value="Herrero">Herrero</option>
-                            <option value="Ingeniero civil">Ingeniero civil</option>
-                            <option value="Ingeniero de sistemas / computación">Ingeniero de sistemas / computación</option>
-                            <option value="Ingeniero industrial">Ingeniero industrial</option>
-                            <option value="Ingeniero mecánico">Ingeniero mecánico</option>
-                            <option value="Ingeniero de petróleo">Ingeniero de petróleo</option>
-                            <option value="Jubilado / Pensionado">Jubilado / Pensionado</option>
-                            <option value="Mecánico automotriz">Mecánico automotriz</option>
-                            <option value="Médico / Cirujano">Médico / Cirujano</option>
-                            <option value="Mesero">Mesero</option>
-                            <option value="Militar">Militar</option>
-                            <option value="Odontólogo">Odontólogo</option>
-                            <option value="Paramédico">Paramédico</option>
-                            <option value="Peluquero">Peluquero</option>
-                            <option value="Periodista / Comunicador Social">Periodista / Comunicador Social</option>
-                            <option value="Personal de limpieza / mantenimiento">Personal de limpieza / mantenimiento</option>
-                            <option value="Pescador">Pescador</option>
-                            <option value="Plomero">Plomero</option>
-                            <option value="Policía">Policía</option>
-                            <option value="Productor agropecuario">Productor agropecuario</option>
-                            <option value="Programador / Desarrollador de software">Programador / Desarrollador de software</option>
-                            <option value="Psicólogo">Psicólogo</option>
-                            <option value="Secretaria">Secretaria</option>
-                            <option value="Soporte técnico digital">Soporte técnico digital</option>
-                            <option value="Técnico en computación">Técnico en computación</option>
-                            <option value="Técnico en electricidad">Técnico en electricidad</option>
-                            <option value="Técnico en enfermería">Técnico en enfermería</option>
-                            <option value="Técnico en mecánica">Técnico en mecánica</option>
-                            <option value="Técnico en turismo">Técnico en turismo</option>
-                            <option value="Terapeuta / Trabajador social">Terapeuta / Trabajador social</option>
-                            <option value="Vendedor">Vendedor</option>
-                            <option value="Veterinario">Veterinario</option>
-                            <option value="Vigilante / Personal de seguridad">Vigilante / Personal de seguridad</option>
-                        </select>
-                    </div>
+                    <div class="sm:col-span-2" x-data="{ ocupacionSeleccionada: '{{ $census->jefe_ocupacion ?? '' }}' }">
+    <label class="block text-xs font-bold text-slate-700 mb-1">Profesión, Oficio u Ocupación Actual <span class="text-rose-500">*</span></label>
+    
+   
+    <!-- Select principal -->
+    <select name="jefe_ocupacion" 
+            x-model="form.jefe_ocupacion" 
+            class="w-full text-sm border-slate-200 rounded-xl p-2.5 mb-2">
+        <option value="">Seleccione una profesión u oficio</option>
+        <option value="Abogado">Abogado</option>
+        <option value="Administrador">Administrador</option>
+        <option value="Agricultor">Agricultor</option>
+        <option value="Albañil">Albañil</option>
+        <option value="Agrónomo">Agrónomo</option>
+        <option value="Ama de casa / Amo de casa">Ama de casa / Amo de casa</option>
+        <option value="Arquitecto">Arquitecto</option>
+        <option value="Artesano">Artesano</option>
+        <option value="Asesor de ventas">Asesor de ventas</option>
+        <option value="Asistente administrativo">Asistente administrativo</option>
+        <option value="Barbero">Barbero</option>
+        <option value="Bioanalista">Bioanalista</option>
+        <option value="Bombero">Bombero</option>
+        <option value="Cajero">Cajero</option>
+        <option value="Carpintero">Carpintero</option>
+        <option value="Chef / Cocinero">Chef / Cocinero</option>
+        <option value="Civil / Militar">Civil / Militar</option>
+        <option value="Comerciante / Dueño de negocio">Comerciante / Dueño de negocio</option>
+        <option value="Community Manager">Community Manager</option>
+        <option value="Conductor / Transportista">Conductor / Transportista</option>
+        <option value="Contador público">Contador público</option>
+        <option value="Costurero / Sastre">Costurero / Sastre</option>
+        <option value="Creador de contenido">Creador de contenido</option>
+        <option value="Desempleado">Desempleado</option>
+        <option value="Diseñador gráfico">Diseñador gráfico</option>
+        <option value="Docente / Profesor">Docente / Profesor</option>
+        <option value="Delivery / Repartidor">Delivery / Repartidor</option>
+        <option value="Electricista">Electricista</option>
+        <option value="Empleado público">Empleado público</option>
+        <option value="Enfermero">Enfermero</option>
+        <option value="Especialista en Recursos Humanos">Especialista en Recursos Humanos</option>
+        <option value="Estudiante">Estudiante</option>
+        <option value="Esteticista / Manicurista">Esteticista / Manicurista</option>
+        <option value="Farmacéutico">Farmacéutico</option>
+        <option value="Herrero">Herrero</option>
+        <option value="Ingeniero civil">Ingeniero civil</option>
+        <option value="Ingeniero de sistemas / computación">Ingeniero de sistemas / computación</option>
+        <option value="Ingeniero industrial">Ingeniero industrial</option>
+        <option value="Ingeniero mecánico">Ingeniero mecánico</option>
+        <option value="Ingeniero de petróleo">Ingeniero de petróleo</option>
+        <option value="Jubilado / Pensionado">Jubilado / Pensionado</option>
+        <option value="Mecánico automotriz">Mecánico automotriz</option>
+        <option value="Médico / Cirujano">Médico / Cirujano</option>
+        <option value="Mesero">Mesero</option>
+        <option value="Militar">Militar</option>
+        <option value="Odontólogo">Odontólogo</option>
+        <option value="Paramédico">Paramédico</option>
+        <option value="Peluquero">Peluquero</option>
+        <option value="Periodista / Comunicador Social">Periodista / Comunicador Social</option>
+        <option value="Personal de limpieza / mantenimiento">Personal de limpieza / mantenimiento</option>
+        <option value="Pescador">Pescador</option>
+        <option value="Plomero">Plomero</option>
+        <option value="Policía">Policía</option>
+        <option value="Productor agropecuario">Productor agropecuario</option>
+        <option value="Programador / Desarrollador de software">Programador / Desarrollador de software</option>
+        <option value="Psicólogo">Psicólogo</option>
+        <option value="Secretaria">Secretaria</option>
+        <option value="Soporte técnico digital">Soporte técnico digital</option>
+        <option value="Técnico en computación">Técnico en computación</option>
+        <option value="Técnico en electricidad">Técnico en electricidad</option>
+        <option value="Técnico en enfermería">Técnico en enfermería</option>
+        <option value="Técnico en mecánica">Técnico en mecánica</option>
+        <option value="Técnico en turismo">Técnico en turismo</option>
+        <option value="Terapeuta / Trabajador social">Terapeuta / Trabajador social</option>
+        <option value="Vendedor">Vendedor</option>
+        <option value="Veterinario">Veterinario</option>
+        <option value="Vigilante / Personal de seguridad">Vigilante / Personal de seguridad</option>
+        <option value="Otro">Otro (Especificar)</option>
+    </select>
+
+    <!-- Input que aparece solo si seleccionas "Otro" -->
+    <div x-show="form.jefe_ocupacion === 'Otro'" x-transition class="mt-2">
+        <input type="text" 
+               name="jefe_ocupacion_otro" 
+               x-model="form.jefe_ocupacion_otro"
+               placeholder="Especifique su profesión u oficio..." 
+               class="w-full text-sm border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-slate-800 outline-none" />
+    </div>
+</div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">¿Posee Carnet de la Patria? <span class="text-rose-500">*</span></label>
                         <select name="posee_carnet_patria" x-model="tieneCarnet" class="w-full text-sm border-slate-200 rounded-xl p-2.5">

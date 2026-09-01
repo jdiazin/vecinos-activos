@@ -32,6 +32,32 @@ class ReportController extends Controller
         return view('reports.index', compact('reports'));
     }
     
+    // Marcar el reporte como "En Proceso"
+    public function markInProcess($id)
+    {
+        $report = Report::findOrFail($id);
+
+        // Actualizamos el estado
+        $report->update([
+            'status' => 'en_proceso'
+        ]);
+
+        // Registramos la acción en auditoría para mantener el control
+        $user = auth()->user();
+        AuditLog::create([
+            'user_id'       => $user->id,
+            'user_name'     => $user->name,
+            'event_context' => 'Gestión de Incidencias',
+            'component'     => 'Reportes',
+            'event_name'    => 'Actualización de Estado',
+            'description'   => "El usuario {$user->name} marcó como 'En Proceso' el reporte #{$report->id} ubicado en '{$report->location}'.",
+            'origin'        => 'Web',
+            'ip_address'    => request()->ip(),
+        ]);
+
+        return back()->with('success', '¡El reporte ha sido marcado como "En Proceso"!');
+    }
+
     public function resolve(Request $request, $id)
     {
         // 1. Validar que se obligatoriamente la evidencia y las notas de solución

@@ -24,7 +24,6 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="flex items-center justify-between h-16">
           
-          <!-- Logo y Título -->
           <div class="flex items-center gap-2.5 flex-shrink-0">
             <div class="bg-slate-900 text-white p-2 rounded-lg flex items-center justify-center">
               <i class="fas fa-home text-lg"></i>
@@ -32,11 +31,9 @@
             <h1 class="text-lg font-bold text-slate-900 tracking-tight">Vecinos Activos</h1>
           </div>
 
-          <!-- Enlaces de Navegación Compactos (Corregidos con gap-6) -->
           <ul class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
             <li><a href="{{ route('eventos.index') }}" class="hover:text-slate-900 transition">Comunicados</a></li>
             
-            <!-- Votar Ahora (Condicionado por el Admin) -->
             @if($votarPermitido)
                 <li>
                     <a href="{{ route('votar.index') }}" class="hover:text-slate-900 transition">
@@ -45,14 +42,12 @@
                 </li>
             @endif
 
-          <!-- Enlace del Módulo de Encuestas -->
-            <li>
+          <li>
                 <a href="{{ route('encuestas.index') }}" class="hover:text-slate-900 transition">
                     Encuestas
                 </a>
             </li>
             
-            <!-- Enlace añadido para el Censo Familiar -->
             <li>
                 <a href="{{ route('census.index') }}" class="hover:text-slate-900 transition">
                     Censo Familiar
@@ -72,7 +67,6 @@
             <li><a href="{{ route('reports.index') }}" class="hover:text-slate-900 transition">Reportes</a></li>
           </ul>
           
-          <!-- Botones de Acción (Derecha) -->
           <div class="hidden md:flex items-center gap-2.5 flex-shrink-0">
             @auth
                 @if(Auth::user()->role === 'admin')
@@ -93,14 +87,12 @@
       </div>
     </header>
 
-    <!-- Tu GIF original de bienvenida -->
     <div class="max-w-6xl mx-auto px-4 mt-8">
         <div class="relative w-full h-80 overflow-hidden rounded-2xl shadow-lg bg-white flex items-center justify-center p-4">
             <img src="{{ asset('bienvenido.gif') }}" alt="Bienvenido a Vecinos Activos" class="w-full h-full object-contain rounded-xl">
         </div>
     </div>
 
-    <!-- Sección de Próximos Eventos -->
     <div class="max-w-6xl mx-auto px-4 mt-6">
         <div class="relative w-full bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
             <div class="flex items-center justify-between mb-4 border-b pb-2">
@@ -112,7 +104,6 @@
                 </a>
             </div>
 
-            <!-- Contenedor con scroll horizontal -->
             <div class="flex overflow-x-auto gap-4 py-2 scrollbar-thin scrollbar-thumb-slate-200">
                 @forelse($eventos as $evento)
                     <div class="min-w-[300px] max-w-[320px] flex-shrink-0 bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition">
@@ -140,7 +131,6 @@
     </div>
 
 
-    <!-- Sección Reportes -->
     <section id="reportes" class="py-12 bg-white border-t border-b border-slate-100">
       <div class="max-w-6xl mx-auto px-4">
         <h2 class="text-3xl font-bold text-slate-900 mb-8 text-center">Reportar Problemas</h2>
@@ -148,7 +138,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           
           <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm">
-            <h3 class="text-lg font-bold text-slate-900 mb-4">¿Encontraste un problema en el barrio?</h3>
+            <h3 class="text-lg font-bold text-slate-900 mb-4">¿Encontraste un problema en la comunidad?</h3>
             <form id="form-reporte" action="{{ route('reports.store') }}" method="POST">
               @csrf
               <div class="mb-4">
@@ -160,6 +150,7 @@
                   <option value="baches">Baches en calles</option>
                   <option value="parques">Mantenimiento de parques</option>
                   <option value="seguridad">Problemas de seguridad</option>
+                 <option value="infraestructura">Infraestructura</option>
                 </select>
               </div>
 
@@ -189,6 +180,9 @@
             <h3 class="text-lg font-bold text-slate-900 mb-4">Reportes Recientes</h3>
             <div id="lista-reportes" class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
                 @forelse($reports as $report)
+                    @php
+                        $statusLower = strtolower($report->status ?? 'pendiente');
+                    @endphp
                     <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm transition hover:shadow-md">
                         <div class="flex justify-between items-start mb-2">
                             <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 uppercase">
@@ -202,22 +196,16 @@
                         <p class="text-sm text-slate-600 mb-3">{{ $report->description }}</p>
                         
                         <div class="w-full bg-slate-100 rounded-full h-4 relative overflow-hidden mb-3">
-                            <div class="bg-blue-600 h-full flex items-center justify-center text-[10px] text-white font-bold">
-                                {{ ucfirst($report->status) }}
-                            </div>
-                        </div>
-
-                        @auth
-                            @if(in_array(Auth::user()->role, ['admin', 'vocero']))
-                                <form action="{{ route('reports.resolve', $report->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="w-full bg-slate-800 hover:bg-slate-950 text-white text-xs font-bold py-1.5 px-3 rounded transition">
-                                        <i class="fas fa-check mr-1"></i> Marcar como Resuelto
-                                    </button>
-                                </form>
+                            @if($statusLower === 'en_proceso')
+                                <div class="bg-sky-500 h-full flex items-center justify-center text-[10px] text-white font-bold w-full">
+                                    En Proceso
+                                </div>
+                            @else
+                                <div class="bg-yellow-500 h-full flex items-center justify-center text-[10px] text-white font-bold w-full">
+                                    Pendiente
+                                </div>
                             @endif
-                        @endauth
+                        </div>
                     </div>
                 @empty
                     <p class="text-slate-400 text-center py-8">No hay reportes activos en este momento.</p>
@@ -228,7 +216,6 @@
       </div>
     </section>
 
-    <!-- Sección Postulaciones (Condicionada por el Admin) -->
     @if($postularPermitido)
         <section id="postulaciones" class="py-12 bg-slate-50">
             <div class="max-w-6xl mx-auto px-4">
@@ -256,11 +243,24 @@
                                 <div class="mb-4">
                                     <label class="block text-sm font-semibold mb-1">Área de Vocería:</label>
                                     <select name="voceria" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-800 outline-none" required>
-                                        <option value="">Selecciona una vocería...</option>
-                                        <option value="salud">Vocería de Salud</option>
-                                        <option value="Economía Comunal">Vocería de Economía Comunal</option>
-                                        <option value="servicios">Vocería de Servicios</option>
+                                        <option value="Salud">Vocería de Salud</option>
+                                        <option value="Alimentación">Vocería de Alimentación</option>
+                                        <option value="Educación">Vocería de Educación</option>
                                         <option value="Vivienda y Hábitat">Vocería de Vivienda y Hábitat</option>
+                                        <option value="Economía Comunal">Vocería de Economía Comunal</option>
+                                        <option value="Mesas Técnicas de Agua">Vocería de Mesas Técnicas de Agua</option>
+                                        <option value="Energía y Gas">Vocería de Energía y Gas</option>
+                                        <option value="Juventud">Vocería de Juventud</option>
+                                        <option value="Recreación y Deporte">Vocería de Recreación y Deporte</option>
+                                        <option value="Mujeres e Igualdad de Género">Vocería de Mujeres e Igualdad de Género</option>
+                                        <option value="Personas Adultas Mayores">Vocería de Personas Adultas Mayores</option>
+                                        <option value="Seguridad y Defensa">Vocería de Seguridad y Defensa</option>
+                                        <option value="Legislación">Vocería de Legislación</option>
+                                        <option value="Cultura">Vocería de Cultura</option>
+                                        <option value="Comunicación e Información">Vocería de Comunicación e Información</option>
+                                        <option value="Unidad Administrativa y Financiera">Vocería de Unidad Administrativa y Financiera</option>
+                                        <option value="Unidad de Contraloría Social">Vocería de Unidad de Contraloría Social</option>
+                                        <option value="Comisión Electoral">Vocería de Comisión Electoral</option>
                                     </select> 
                                 </div>
                                 <textarea name="propuesta" class="w-full p-2 border border-slate-300 rounded-lg mb-4 focus:ring-2 focus:ring-slate-800 outline-none" placeholder="Describe brevemente tu propuesta..." required></textarea>

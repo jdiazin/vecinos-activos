@@ -85,30 +85,52 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse($reports ?? [] as $report)
+                                @php
+                                    $statusLower = strtolower($report->status ?? 'pendiente');
+                                @endphp
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">{{ $report->issue_type }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $report->location }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-500">{{ $report->description }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        @if(strtolower($report->status) === 'resuelto')
+                                        @if($statusLower === 'resuelto')
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 capitalize">
-                                                {{ $report->status }}
+                                                Resuelto
+                                            </span>
+                                        @elseif($statusLower === 'en_proceso')
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-sky-100 text-sky-800 capitalize">
+                                                En Proceso
                                             </span>
                                         @else
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 capitalize">
-                                                {{ $report->status }}
+                                                Pendiente
                                             </span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        @if(strtolower($report->status) !== 'resuelto')
+                                        @if($statusLower !== 'resuelto')
                                             @if($puedeGestionar)
-                                                {{-- Botón que activa el modal para solventar con evidencia obligatoria --}}
-                                                <button type="button" onclick="openResolveModal({{ $report->id }})" class="text-indigo-600 hover:text-indigo-900 font-semibold bg-indigo-50 px-3 py-1 rounded-md">
-                                                    Resolver
-                                                </button>
+                                                <div class="flex items-center space-x-2">
+                                                    {{-- Si está pendiente, permitimos marcarlo En Proceso --}}
+                                                    @if($statusLower === 'pendiente')
+                                                        <form action="{{ route('reports.markInProcess', $report->id) }}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="text-sky-700 hover:text-sky-900 font-semibold bg-sky-50 px-3 py-1 rounded-md text-xs transition">
+                                                                Marcar En Proceso
+                                                            </button>
+                                                        </form>
+                                                    @endif
+
+                                                    {{-- Botón que activa el modal para solventar con evidencia obligatoria --}}
+                                                    <button type="button" onclick="openResolveModal({{ $report->id }})" class="text-indigo-600 hover:text-indigo-900 font-semibold bg-indigo-50 px-3 py-1 rounded-md text-xs transition">
+                                                        Resolver
+                                                    </button>
+                                                </div>
                                             @else
-                                                <span class="text-gray-400 text-xs italic">En proceso</span>
+                                                <span class="text-gray-400 text-xs italic">
+                                                    {{ $statusLower === 'en_proceso' ? 'En proceso de atención' : 'Pendiente de revisión' }}
+                                                </span>
                                             @endif
                                         @else
                                             {{-- Visible para Admin, Voceros y Auditores: Permite ver la prueba adjunta --}}

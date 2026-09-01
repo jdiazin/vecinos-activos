@@ -32,6 +32,9 @@ Route::middleware(['auth', AuditActivityMiddleware::class])->group(function () {
     // Vista dedicada de gestión/listado de reportes
     Route::get('/reportes/gestion', [ReportController::class, 'gestionIndex'])->name('reports.index');
 
+    // Ruta para marcar el reporte como "En Proceso"
+    Route::patch('/reportes/{id}/en-proceso', [ReportController::class, 'markInProcess'])->name('reports.markInProcess');
+
     // Ruta para resolver el reporte con evidencia (Accesible para Admin y Voceros)
     Route::patch('/reportes/{id}/resolver', [ReportController::class, 'resolve'])->name('reports.resolve');
 
