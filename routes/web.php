@@ -114,17 +114,24 @@ Route::middleware(['auth', AuditActivityMiddleware::class])
             // RUTA TEMPORAL DE EMERGENCIA PARA ARREGLAR PRODUCCIÓN
             Route::get('/run-migrations-xyz', function () {
                 try {
-                    // Forzar la creación de la columna phone en la tabla users si no existe
+                    // 1. Asegurar columna 'phone' en la tabla users
                     if (!Illuminate\Support\Facades\Schema::hasColumn('users', 'phone')) {
                         Illuminate\Support\Facades\Schema::table('users', function (\Illuminate\Database\Schema\Blueprint $table) {
                             $table->string('phone')->nullable();
                         });
                     }
 
-                    // Ejecutar el resto de migraciones pendientes
+                    // 2. Asegurar columna 'apellido' en la tabla users (la que está dando el error actual)
+                    if (!Illuminate\Support\Facades\Schema::hasColumn('users', 'apellido')) {
+                        Illuminate\Support\Facades\Schema::table('users', function (\Illuminate\Database\Schema\Blueprint $table) {
+                            $table->string('apellido')->nullable();
+                        });
+                    }
+
+                    // 3. Ejecutar el resto de migraciones pendientes de forma oficial
                     Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
 
-                    return "¡Columna 'phone' creada y migraciones ejecutadas con éxito en producción!";
+                    return "¡Columnas 'phone' y 'apellido' aseguradas, y migraciones ejecutadas con éxito en producción!";
                 } catch (\Exception $e) {
                     return "Error al migrar: " . $e->getMessage();
                 }
