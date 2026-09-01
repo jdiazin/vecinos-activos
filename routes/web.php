@@ -108,11 +108,20 @@ Route::middleware(['auth', AuditActivityMiddleware::class])
             Route::get('/solicitudes-credenciales', [PasswordRequestController::class, 'index'])->name('password.requests.index');
             Route::patch('/solicitudes-credenciales/{passwordRequest}', [PasswordRequestController::class, 'update'])->name('password.requests.update');
 
-            // RUTA TEMPORAL DE EMERGENCIA PARA MIGRAR EN PRODUCCIÓN
+            // RUTA TEMPORAL DE EMERGENCIA PARA ARREGLAR PRODUCCIÓN
             Route::get('/run-migrations-xyz', function () {
                 try {
-                    Artisan::call('migrate', ['--force' => true]);
-                    return "¡Migraciones ejecutadas con éxito en producción!";
+                    // Forzar la creación de la columna phone en la tabla users si no existe
+                    if (!Illuminate\Support\Facades\Schema::hasColumn('users', 'phone')) {
+                        Illuminate\Support\Facades\Schema::table('users', function (\Illuminate\Database\Schema\Blueprint $table) {
+                            $table->string('phone')->nullable();
+                        });
+                    }
+
+                    // Ejecutar el resto de migraciones pendientes
+                    Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+
+                    return "¡Columna 'phone' creada y migraciones ejecutadas con éxito en producción!";
                 } catch (\Exception $e) {
                     return "Error al migrar: " . $e->getMessage();
                 }
