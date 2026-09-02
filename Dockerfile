@@ -11,6 +11,10 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip
 
+# Instalar Node.js (necesario para compilar Tailwind CSS / Vite)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
 # Limpiar cache de apt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -28,6 +32,9 @@ COPY . /var/www/html
 
 # Instalar dependencias de PHP con Composer
 RUN composer install --no-dev --optimize-autoloader
+
+# Instalar dependencias de Node y compilar Tailwind CSS para producción
+RUN npm install && npm run build
 
 # Ajustar permisos para evitar errores de escritura
 RUN chown -R www-data:www-data /var/www/html \

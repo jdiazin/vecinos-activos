@@ -43,12 +43,14 @@
                 @endif
 
                 <!-- Reportes -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-slate-900 mb-2">Reportes</h3>
-                    <p class="text-sm text-slate-500 mb-4">Revisar reportes de comunidad.</p>
-                    <a href="{{ route('home') }}" class="text-blue-600 font-medium text-sm hover:underline">Ver pendientes →</a>
-                </div>
-
+                <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold text-gray-800">Reportes</h3>
+                <p class="text-sm text-gray-600 mb-4">Revisar reportes de comunidad.</p>
+                
+                <a href="{{ route('reports.index') }}" class="text-blue-600 hover:underline flex items-center">
+                    Ver pendientes &rarr;
+                </a>
+            </div>
                 <!-- Censos Familiares -->
                 <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
                     <h4 class="font-bold text-slate-900 text-lg mb-1">Censos Familiares</h4>
