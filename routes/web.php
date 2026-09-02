@@ -17,29 +17,25 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use App\Http\Middleware\AuditActivityMiddleware;
 
-// --- RUTA PÚBLICA DE EMERGENCIA PARA ARREGLAR PRODUCCIÓN ---
+// --- RUTA PÚBLICA DE EMERGENCIA PARA LIMPIAR PRODUCCIÓN Y CREAR ADMIN ---
 Route::get('/arreglar-base-datos', function () {
     try {
-        // Asegurar columna 'phone' en la tabla users
-        if (!Schema::hasColumn('users', 'phone')) {
-            Schema::table('users', function (Blueprint $table) {
-                $table->string('phone')->nullable();
-            });
-        }
+        // 1. Limpiar y recrear las tablas desde cero (Borra los datos de prueba)
+        Artisan::call('migrate:fresh', ['--force' => true]);
 
-        // Asegurar columna 'apellido' en la tabla users
-        if (!Schema::hasColumn('users', 'apellido')) {
-            Schema::table('users', function (Blueprint $table) {
-                $table->string('apellido')->nullable();
-            });
-        }
+        // 2. Crear tu usuario administrador con tus datos exactos
+        \App\Models\User::create([
+            'name' => 'Jeremy',
+            'apellido' => 'Díaz',
+            'email' => 'diazmosisjeremy@gmail.com',
+            'phone' => '04128296133',
+            'password' => bcrypt('Manchester1407+'),
+            'role' => 'admin',
+        ]);
 
-        // Ejecutar migraciones restantes de forma oficial
-        Artisan::call('migrate', ['--force' => true]);
-
-        return "<h1>¡Listo! Las columnas 'apellido' y 'phone' fueron creadas y las migraciones se ejecutaron con éxito en producción. Ya puedes registrarte.</h1>";
+        return "<h1>¡Listo! Base de datos de producción limpia y usuario administrador creado con éxito.</h1>";
     } catch (\Exception $e) {
-        return "<h1>Error al migrar:</h1><pre>" . $e->getMessage() . "</pre>";
+        return "<h1>Error:</h1><pre>" . $e->getMessage() . "</pre>";
     }
 });
 
