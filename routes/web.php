@@ -17,27 +17,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use App\Http\Middleware\AuditActivityMiddleware;
 
-// --- RUTA PÚBLICA DE EMERGENCIA PARA LIMPIAR PRODUCCIÓN Y CREAR ADMIN ---
-Route::get('/arreglar-base-datos', function () {
-    try {
-        // 1. Limpiar y recrear las tablas desde cero (Borra los datos de prueba)
-        Artisan::call('migrate:fresh', ['--force' => true]);
-
-        // 2. Crear tu usuario administrador con tus datos exactos
-        \App\Models\User::create([
-            'name' => 'Jeremy',
-            'apellido' => 'Díaz',
-            'email' => 'diazmosisjeremy@gmail.com',
-            'phone' => '04128296133',
-            'password' => bcrypt('Manchester1407+'),
-            'role' => 'admin',
-        ]);
-
-        return "<h1>¡Listo! Base de datos de producción limpia y usuario administrador creado con éxito.</h1>";
-    } catch (\Exception $e) {
-        return "<h1>Error:</h1><pre>" . $e->getMessage() . "</pre>";
-    }
-});
 
 // --- Rutas Públicas ---
 Route::get('/', [ReportController::class, 'index'])->name('home');
