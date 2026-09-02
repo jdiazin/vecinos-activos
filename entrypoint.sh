@@ -7,7 +7,7 @@ echo "Ejecutando migraciones de la base de datos..."
 php artisan migrate --force
 
 echo "Creando o verificando el usuario administrador..."
-php artisan user:create-admin
+php artisan db:seed --class=AdminUserSeeder --force
 
 echo "Iniciando servidor Apache..."
 exec apache2-foreground
